@@ -6,7 +6,7 @@ const options = {
         info: {
             title: 'API Documentation',
             version: '1.0.0',
-            description: 'API Documentation for Gamatecha Test',
+            description: 'API Documentation for ExpressJS Portofolio',
         },
         servers: [
             {
