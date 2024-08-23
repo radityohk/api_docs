@@ -41,6 +41,10 @@ Setelah semua langkah di atas selesai, jalankan server dengan perintah berikut:
 ```bash
 nodemon
 ```
+atau
+```bash
+npx nodemon
+```
 
 Kemudian buka dokumentasi API di browser dengan mengunjungi:
 
