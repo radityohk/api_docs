@@ -58,4 +58,3 @@ Anda akan dapat melihat dokumentasi API secara lengkap di sana.
 
 - Pastikan Anda memiliki **Node.js** dan **npm** terinstal di mesin Anda.
 - Pastikan koneksi database Anda sudah benar dan tersedia.
-```
