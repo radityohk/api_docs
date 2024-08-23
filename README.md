@@ -1,6 +1,6 @@
 # API Documentation Repository
 
-Repository ini berisi dokumentasi API Portofolio ExpressJS.
+Repository ini berisi dokumentasi API ExpressJS Portofolio.
 
 ## Tahapan Penggunaan
 
