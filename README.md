@@ -1,6 +1,6 @@
 # API Documentation Repository
 
-Repository ini berisi dokumentasi API untuk Gamatecha Test.
+Repository ini berisi dokumentasi API Portofolio ExpressJS.
 
 ## Tahapan Penggunaan
 
@@ -8,13 +8,11 @@ Ikuti langkah-langkah berikut untuk menjalankan repository ini di mesin lokal An
 
 ### 1. Git Clone
 
-Pertama-tama, klon repository ini ke dalam direktori lokal Anda:
+Pertama-tama, clone repository ini ke dalam direktori lokal Anda:
 
 ```bash
-git clone https://github.com/username/api_docs.git
+git clone https://github.com/radityohk/api_docs.git
 ```
-
-> Gantilah `username` dengan nama pengguna GitHub Anda.
 
 Setelah selesai, masuk ke dalam direktori repository:
 
