@@ -39,6 +39,36 @@ const user = require('../models/user');
 
 /**
  * @swagger
+ * /user/manager:
+ *   get:
+ *     summary: Get all managers
+ *     description: Retrieve a list of all managers.
+ *     tags: 
+ *       - Users
+ *     responses:
+ *       200:
+ *         description: A list of managers.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   username:
+ *                     type: string
+ *                   fullname:
+ *                     type: string
+ *                   role:
+ *                     type: string
+ *       400:
+ *         description: Bad request or error fetching managers.
+ */
+
+/**
+ * @swagger
  * /user/create:
  *   post:
  *     summary: Create a new user
@@ -160,7 +190,19 @@ const user = require('../models/user');
  *         description: Failed to delete user.
  */
 
-app.post('/create', auth, allowRoles(['superadmin']), async(req, res) => {
+app.post('/create', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
+    const loggedInUserRole = req.user.role;
+
+    if (loggedInUserRole === 'owner') {
+        const role = req.body.role
+
+        if (role === 'superadmin') {
+            return res.status(403).json({
+                message: "Owner doesn't have access to admin!"
+            });
+        }
+    }
+    
     let data = {
         username: req.body.username,
         fullname: req.body.fullname,
@@ -197,19 +239,11 @@ app.get('/', auth, allowRoles(['superadmin']), async(req, res) => {
     })
 })
 
-app.put('/:id', auth, async(req, res) => {
-    let data = {
-        username: req.body.username,
-        fullname: req.body.fullname,
-        password: req.body.password ? md5(req.body.password) : undefined,
-        role: req.body.role,
-    }
-
-    await userModel.update(data, {where: {id: req.params.id}})
+app.get('/manager', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
+    await userModel.findAll({where: {role: 'manager'}})
     .then(result => {
         return res.status(200).json({
-            data: data,
-            message: "Success Update User"
+            data: result
         })
     })
     .catch(error => {
@@ -219,7 +253,53 @@ app.put('/:id', auth, async(req, res) => {
     })
 })
 
-app.delete('/:id', auth, async(req, res) => {
+app.put('/:id', auth, allowRoles(['superadmin', 'owner']), async (req, res) => {
+    const loggedInUserRole = req.user.role;
+
+    if (loggedInUserRole === 'owner') {
+        const userToUpdate = await userModel.findOne({ where: { id: req.params.id } });
+
+        if (!userToUpdate || userToUpdate.role !== 'manager') {
+            return res.status(403).json({
+                message: "Owner doesn't have access to admin!"
+            });
+        }
+    }
+
+    let data = {
+        username: req.body.username,
+        fullname: req.body.fullname,
+        password: req.body.password ? md5(req.body.password) : undefined,
+        role: req.body.role,
+    };
+
+    await userModel.update(data, { where: { id: req.params.id } })
+        .then(result => {
+            return res.status(200).json({
+                data: data,
+                message: "Success Update User"
+            });
+        })
+        .catch(error => {
+            return res.status(400).json({
+                message: error.message || "An error occurred"
+            });
+        });
+});
+
+app.delete('/:id', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
+    const loggedInUserRole = req.user.role;
+
+    if (loggedInUserRole === 'owner') {
+        const userToUpdate = await userModel.findOne({ where: { id: req.params.id } });
+
+        if (!userToUpdate || userToUpdate.role !== 'manager') {
+            return res.status(403).json({
+                message: "Owner doesn't have access to admin!"
+            });
+        }
+    }
+
     await userModel.destroy({where: {id: req.params.id}})
     .then(result => {
         return res.status(200).json({

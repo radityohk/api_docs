@@ -158,7 +158,7 @@ const {allowRoles} = require('../auth/role');
  *         description: Failed to delete menu.
  */
 
-app.post('/create', auth, allowRoles(['superadmin']), async(req, res) => {
+app.post('/create', auth, allowRoles(['superadmin', 'manager']), async(req, res) => {
     let data = {
         name: req.body.name,
         price: req.body.price, //float
@@ -179,7 +179,7 @@ app.post('/create', auth, allowRoles(['superadmin']), async(req, res) => {
     })
 })
 
-app.get('/', auth, async(req, res) => {
+app.get('/', auth, allowRoles(['superadmin', 'manager']), async(req, res) => {
     await menuModel.findAll()
     .then(result => {
         return res.status(200).json({
@@ -193,7 +193,7 @@ app.get('/', auth, async(req, res) => {
     })
 })
 
-app.put('/:id', auth, async(req, res) => {
+app.put('/:id', auth, allowRoles(['superadmin', 'manager']), async(req, res) => {
     let data = {
         name: req.body.name,
         price: req.body.price, //float
@@ -214,7 +214,7 @@ app.put('/:id', auth, async(req, res) => {
     })
 })
 
-app.delete('/:id', auth, async(req, res) => {
+app.delete('/:id', auth, allowRoles(['superadmin', 'manager']), async(req, res) => {
     await menuModel.destroy({where: {id: req.params.id}})
     .then(result => {
         return res.status(200).json({

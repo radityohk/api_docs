@@ -155,7 +155,7 @@ const {allowRoles} = require('../auth/role');
  *         description: Failed to delete cafe.
  */
 
-app.post('/create', auth, allowRoles(['superadmin']), async(req, res) => {
+app.post('/create', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
     function formatPhoneNumber(phoneNumber) {
         if (phoneNumber.startsWith('0')) {
             return '+62' + phoneNumber.slice(1);
@@ -183,7 +183,7 @@ app.post('/create', auth, allowRoles(['superadmin']), async(req, res) => {
     })
 })
 
-app.get('/', auth, async(req, res) => {
+app.get('/', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
     await cafeModel.findAll()
     .then(result => {
         return res.status(200).json({
@@ -197,7 +197,7 @@ app.get('/', auth, async(req, res) => {
     })
 })
 
-app.put('/:id', auth, async(req, res) => {
+app.put('/:id', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
     function formatPhoneNumber(phoneNumber) {
         if (phoneNumber.startsWith('0')) {
             return '+62' + phoneNumber.slice(1);
@@ -225,7 +225,7 @@ app.put('/:id', auth, async(req, res) => {
     })
 })
 
-app.delete('/:id', auth, async(req, res) => {
+app.delete('/:id', auth, allowRoles(['superadmin', 'owner']), async(req, res) => {
     await cafeModel.destroy({where: {id: req.params.id}})
     .then(result => {
         return res.status(200).json({

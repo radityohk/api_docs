@@ -3,7 +3,7 @@ const userModel = model.user;
 const express = require('express');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'gamatecha';
+const SECRET_KEY = 'testJWT';
 const app = express();
 
 /**
