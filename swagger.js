@@ -13,33 +13,10 @@ const options = {
                 url: 'http://localhost:8000',
             },
         ],
-        components: {
-            securitySchemes: {
-                bearerAuth: {
-                    type: 'http',
-                    scheme: 'bearer',
-                    bearerFormat: 'JWT', 
-                },
-            },
-        },
-        security: [
-            {
-                bearerAuth: [],
-            },
-        ],
         tags: [
             {
-                name: 'Auth'
+                name: 'Animal'
             },
-            {
-                name: 'Users'
-            },
-            {
-                name: 'Cafe'
-            },
-            {
-                name: 'Menu'
-            }
         ]
     },
     apis: [__dirname + '/api/*.js'],

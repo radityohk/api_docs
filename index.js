@@ -28,10 +28,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 console.log(swaggerSpec);
 
 //Routes
-app.use("/auth", limiter, require("./api/login"));
-app.use("/user", limiter, require("./api/user"));
-app.use("/cafe", limiter, require("./api/cafe"));
-app.use("/menu", limiter, require("./api/menu"));
+app.use("/animal", limiter, require("./api/animal"));
 
 app.listen(PORT, () => {
   console.log(`Running on Port ${PORT}`);

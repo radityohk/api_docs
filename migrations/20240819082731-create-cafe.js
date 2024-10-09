@@ -12,11 +12,11 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      address: {
+      class: {
         type: Sequelize.STRING
       },
-      phoneNumber: {
-        type: Sequelize.STRING
+      legs: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
